@@ -1,7 +1,5 @@
 package w.model;
 
-import java.io.Serializable;
-
 //import javax.persistence.Column;
 //import javax.persistence.Entity;
 //import javax.persistence.GeneratedValue;
@@ -9,37 +7,35 @@ import java.io.Serializable;
 //import javax.persistence.Id;
 
 //@Entity
-public class Foo implements Serializable {
+public class Foo extends Dbable {
 
 	private static final long serialVersionUID = -411016648183325987L;
 
-	//@Id
-    //@GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
-    //@Column(nullable = false)
     private String name;
 
     public Foo() {
         super();
     }
+    
+    public Foo(final String name) {
+        super(0,0);
 
+        this.name = name;
+    }
+    
     public Foo(final long id, final String name) {
-        super();
+        super(id);
 
-        this.id=id;
         this.name = name;
     }
 
+    public Foo(final long id, final long version, final String name) {
+        super(id,version);
+
+        this.name = name;
+    }
+    
     // API
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(final long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -49,38 +45,10 @@ public class Foo implements Serializable {
         this.name = name;
     }
 
-    //
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final Foo other = (Foo) obj;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        return true;
-    }
-
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("Foo [name=").append(name).append("]");
+        builder.append("Foo [id=").append(super.toString()).append(" name=").append(name).append("]");
         return builder.toString();
     }
-
 }

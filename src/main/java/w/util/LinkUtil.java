@@ -40,8 +40,9 @@ public final class LinkUtil {
      * @param uriBuilder
      * @param clazz
      */
-    public static void plural(final UriComponentsBuilder uriBuilder, final Class<?> clazz) {
+    public static UriComponentsBuilder plural(final UriComponentsBuilder uriBuilder, final Class<?> clazz) {
         final String resourceName = clazz.getSimpleName().toLowerCase() + "s";
         uriBuilder.path("/" + resourceName);
+        return uriBuilder;
     }
 }
