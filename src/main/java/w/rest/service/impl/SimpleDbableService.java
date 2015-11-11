@@ -36,7 +36,7 @@ public abstract class SimpleDbableService<T extends Dbable> implements IDbableSe
 	@Override
 	public T create(final T t) {
 		if (t.getId()<=0) t.setId(++counter);
-		if (t.getVersion()<0) t.setVersion(0l);
+		if (t.getVersion()<=0) t.setVersion(1l);
 		
 		storage.put(t.getId(), t);
 		return t;
