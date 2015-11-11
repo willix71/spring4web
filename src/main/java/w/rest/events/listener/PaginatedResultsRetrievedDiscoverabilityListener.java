@@ -28,17 +28,17 @@ class PaginatedResultsRetrievedDiscoverabilityListener implements ApplicationLis
     public final void onApplicationEvent(final PaginatedResultsRetrievedEvent ev) {
         Preconditions.checkNotNull(ev);
 
-        addLinkHeaderOnPagedResourceRetrieval(ev.getUriBuilder(), ev.getResponse(), ev.getPageSize(), ev.getPage(), ev.getTotalPages());
+        addLinkHeaderOnPagedResourceRetrieval(ev.getUriBuilder(), ev.getResponse(), ev.getPageSize(), ev.getPage(), ev.getTotalPages()-1);
     }
 
-    void addLinkHeaderOnPagedResourceRetrieval(final UriComponentsBuilder uriBuilder, final HttpServletResponse response, final int pageSize, final int page, final int totalPages) {
+    void addLinkHeaderOnPagedResourceRetrieval(final UriComponentsBuilder uriBuilder, final HttpServletResponse response, final int pageSize, final int page, final int lastPage) {
         final StringBuilder linkHeader = new StringBuilder();
         
-        if (hasNextPage(page, totalPages)) {
+        if (hasNextPage(page, lastPage)) {
         	appendCommaIfNecessary(linkHeader);
         	linkHeader.append(LinkUtil.createLinkHeader(constructPageUri(uriBuilder, page+1, pageSize), LinkUtil.REL_NEXT));
             appendCommaIfNecessary(linkHeader);
-            linkHeader.append(LinkUtil.createLinkHeader(constructPageUri(uriBuilder, totalPages, pageSize), LinkUtil.REL_LAST));
+            linkHeader.append(LinkUtil.createLinkHeader(constructPageUri(uriBuilder, lastPage, pageSize), LinkUtil.REL_LAST));
         }
         if (hasPreviousPage(page)) {
             appendCommaIfNecessary(linkHeader);
@@ -56,8 +56,8 @@ class PaginatedResultsRetrievedDiscoverabilityListener implements ApplicationLis
         return uriBuilder.replaceQueryParam(PAGE, page).replaceQueryParam(SIZE, size).build().encode().toUriString();
     }
     
-    final boolean hasNextPage(final int page, final int totalPages) {
-        return page < totalPages - 1; // 0 based
+    final boolean hasNextPage(final int page, final int lastPage) {
+        return page < lastPage; 
     }
 
     final boolean hasPreviousPage(final int page) {
