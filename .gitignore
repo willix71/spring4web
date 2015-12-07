@@ -1,17 +1,4 @@
-*.class
-
-.classpath
+target
+.settings
 .project
-.springBeans
-
-sublime*
-
-#folders#
-/target
-/data
-/.settings
-
-# Packaged files #
-*.jar
-*.war
-*.ear
+.classpath

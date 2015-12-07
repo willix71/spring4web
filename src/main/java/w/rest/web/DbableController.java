@@ -50,6 +50,8 @@ public class DbableController<T extends Dbable> {
     /**
      * curl -i http://localhost:8880/spring/rest/foos/1
      * 
+     * curl -i --header “Accept: application/json” http://localhost:8880/spring/rest/foos/1
+     * 
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
@@ -129,6 +131,21 @@ public class DbableController<T extends Dbable> {
         service.update(resource);
     }
 
+    /**
+     * curl -iH "Content-Type: application/json" -X PATCH -d '{"name":"willy123"}' http://localhost:8880/spring/rest/foos/1
+     * 
+     */
+    @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void patch(@PathVariable("id") final Long id, @RequestBody final T resource) {
+        Preconditions.checkNotNull(resource);
+
+        // TODO
+        
+        LOGGER.info("Patching " + resource);
+    }
+
+    
     /**
      * curl -i -X DELETE http://localhost:8880/spring/rest/foos/1
      * 
